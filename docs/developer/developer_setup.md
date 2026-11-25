@@ -79,11 +79,16 @@ highlighting API is not yet compatible with the mkdocstrings renderer.
 
 Documentation is built with MkDocs and deployed to [pfig.dev](https://pfig.dev/) via Cloudflare Pages on pushes to `main`.
 
-1. Create a Cloudflare Pages project named `pfig` and attach the `pfig.dev` custom domain.
-2. Add GitHub repository secrets:
-   - `CLOUDFLARE_API_TOKEN` — token with **Cloudflare Pages → Edit** permission
+1. In Cloudflare, use the Pages project named `pfig` with `main` as its production
+   branch and `pfig.dev` attached as a custom domain. Reuse the existing project
+   if present. If it was connected to GitHub, disable automatic Git deployments
+   so Wrangler is the only publisher.
+2. Under **Settings → Secrets and variables → Actions** in `pfig-dev/pfig`, add:
+   - `CLOUDFLARE_API_TOKEN` — a scoped token with **Account → Cloudflare Pages → Edit** for the account that owns the project
    - `CLOUDFLARE_ACCOUNT_ID` — account ID from the Cloudflare dashboard
-3. Merge to `main`; the [Deploy docs](https://github.com/pfig-dev/pfig/actions/workflows/docs.yml) workflow runs `mkdocs build --strict` and uploads the `site/` directory.
+3. Merge to `main` or manually run [Deploy docs](https://github.com/pfig-dev/pfig/actions/workflows/docs.yml)
+   on `main`. The workflow builds with `mkdocs build --strict` and uploads `site/`
+   with Wrangler. Verify the production deployment in Cloudflare and at `pfig.dev`.
 
 ## Next Steps
 
