@@ -1,0 +1,6 @@
+from collections import Counter, OrderedDict
+
+augment = OrderedDict(flip=True)
+preprocess = OrderedDict(transform=@augment)
+dataloader = OrderedDict(preprocess=@preprocess, num_workers=8)
+model = Counter(hidden_sizes=[32, 64])

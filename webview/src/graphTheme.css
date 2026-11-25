@@ -1,0 +1,580 @@
+/* Graph UI tokens: dark preserves the previous look; light uses higher-contrast text */
+.pfig-graph-root {
+  --pfig-warn: #c9a227;
+  color: var(--pfig-fg);
+  background: var(--pfig-body-bg);
+}
+
+.pfig-graph-root--dark {
+  --pfig-fg: #ccc;
+  --pfig-muted: #888;
+  --pfig-faint: #aaa;
+  --pfig-divider: #333;
+  --pfig-badge-bg: #333;
+  --pfig-badge-fg: #aaa;
+  --pfig-kw-label: #ce9178;
+  --pfig-kw-link: #6b9eff;
+  --pfig-kw-link-dim: #8aa8e8;
+  --pfig-bar: #1e1e1e;
+  --pfig-border: #333;
+  --pfig-handle-ring: rgba(255, 255, 255, 0.92);
+  --pfig-body-bg: #1e1e1e;
+  --pfig-bg-dot: #444;
+  --pfig-entry-file-bg: #30456b;
+  --pfig-diff-added: #80d3a2;
+  --pfig-diff-modified: #f0bd67;
+  --pfig-diff-removed: #ff999b;
+}
+
+.pfig-graph-root--light {
+  --pfig-fg: #1a1a1a;
+  --pfig-muted: #444;
+  --pfig-faint: #555;
+  --pfig-divider: rgba(0, 0, 0, 0.14);
+  --pfig-badge-bg: rgba(0, 0, 0, 0.07);
+  --pfig-badge-fg: #333;
+  --pfig-kw-label: #811f3f;
+  --pfig-kw-link: #1155cc;
+  --pfig-kw-link-dim: #0d47a1;
+  --pfig-bar: #ececec;
+  --pfig-border: #c8c8c8;
+  --pfig-handle-ring: rgba(30, 30, 30, 0.85);
+  --pfig-body-bg: #f8f8f8;
+  --pfig-bg-dot: #bbb;
+  --pfig-entry-file-bg: #cbdfff;
+  --pfig-diff-added: #166c3c;
+  --pfig-diff-modified: #825000;
+  --pfig-diff-removed: #a42537;
+}
+
+[data-diff-status="added"] { --pfig-diff-accent: var(--pfig-diff-added); }
+[data-diff-status="modified"] { --pfig-diff-accent: var(--pfig-diff-modified); }
+[data-diff-status="removed"] { --pfig-diff-accent: var(--pfig-diff-removed); }
+
+.binding-node[data-diff-status]::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border: 2px solid var(--pfig-diff-accent);
+  border-radius: 9px;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--pfig-diff-accent) 55%, transparent);
+  pointer-events: none;
+}
+
+.binding-node[data-diff-status="removed"]::after { border-style: dashed; }
+
+.pfig-diff-controls, .pfig-diff-totals {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.pfig-diff-controls :is(button, select), .pfig-diff-action {
+  font: inherit;
+  color: inherit;
+  background: var(--pfig-bar);
+  border: 1px solid var(--pfig-border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pfig-diff-controls [data-diff-status], .pfig-diff-totals [data-diff-status],
+.pfig-diff-badge { color: var(--pfig-diff-accent); }
+
+.pfig-diff-badge { font-size: 10px; font-weight: 600; white-space: nowrap; }
+.pfig-diff-hide { line-height: 1; padding: 1px 4px; }
+.pfig-graph-exporting .pfig-diff-hide { display: none; }
+
+.pfig-field-delta, .pfig-diff-nested {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-family: monospace;
+  overflow-wrap: anywhere;
+}
+
+.kw-row .pfig-field-delta { margin-left: 6px; }
+.pfig-diff-nested { padding-left: 8px; border-left: 1px solid var(--pfig-divider); }
+.pfig-diff-values { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 5px; }
+.pfig-diff-values > * { min-width: 0; max-width: 100%; }
+.pfig-diff-before { color: var(--pfig-diff-removed); text-decoration: line-through; }
+.pfig-diff-after { color: var(--pfig-diff-added); }
+.pfig-diff-after[data-graph-target] { cursor: pointer; }
+.pfig-historical-arguments {
+  border-top: 1px solid var(--pfig-divider);
+  margin-top: 5px;
+  padding-top: 4px;
+}
+
+.pfig-historical-heading {
+  color: var(--pfig-faint);
+  font-size: 11px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pfig-historical-argument > .pfig-kwarg-name {
+  color: var(--pfig-diff-removed);
+  flex: 0 0 40%;
+}
+
+.pfig-diff-field-name { color: var(--pfig-diff-modified); font-weight: 600; }
+
+.pfig-diff-link {
+  color: var(--pfig-diff-removed);
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0;
+  overflow-wrap: anywhere;
+}
+.pfig-diff-link:hover { text-decoration: line-through underline; }
+.pfig-diff-action:focus-visible, .pfig-diff-controls :focus-visible {
+  outline: 2px solid var(--pfig-kw-link);
+  outline-offset: 2px;
+}
+.pfig-diff-old-port { position: relative; color: var(--pfig-diff-removed); }
+
+.pfig-graph-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  pointer-events: none;
+  font-size: 14px;
+}
+
+.pfig-graph-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--pfig-muted);
+  border-top-color: var(--pfig-kw-link);
+  border-radius: 50%;
+  animation: pfig-graph-spin 0.8s linear infinite;
+}
+
+@keyframes pfig-graph-spin { to { transform: rotate(1turn); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pfig-graph-spinner { animation: none; }
+}
+
+.pfig-focus-bar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--pfig-border);
+  background: var(--pfig-bar);
+  font-size: 12px;
+}
+
+.pfig-focus-card {
+  outline: 2px solid var(--pfig-kw-link);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.pfig-focus-bar form { position: relative; }
+.pfig-focus-bar input,
+.pfig-focus-bar select,
+.pfig-focus-bar button {
+  border: 1px solid var(--pfig-border);
+  border-radius: 4px;
+  padding: 3px 6px;
+  font: inherit;
+  color: var(--pfig-fg);
+  background: var(--pfig-body-bg);
+}
+
+.pfig-focus-anchor {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pfig-focus-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: max-content;
+  min-width: 100%;
+  max-width: min(440px, calc(100vw - 20px));
+  margin: 4px 0 0;
+  padding: 4px;
+  border: 1px solid var(--pfig-border);
+  border-radius: 4px;
+  background: var(--pfig-bar);
+  list-style: none;
+}
+
+.pfig-focus-no-results { padding: 3px 6px; }
+.pfig-focus-results button {
+  width: 100%;
+  border: 0;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.pfig-focus-results button:hover,
+.pfig-focus-results button:focus-visible { background: var(--pfig-badge-bg); }
+
+.pfig-overview-card {
+  position: relative;
+  --overview-fill: var(--pfig-bar);
+  --overview-border: var(--pfig-border);
+  box-sizing: border-box;
+}
+
+.pfig-folder-accent {
+  --overview-fill: color-mix(in srgb, var(--folder-fill-color) 32%, var(--pfig-bar));
+  --overview-border: color-mix(in srgb, var(--folder-stripe) 65%, var(--pfig-bar));
+}
+
+.pfig-overview-card[data-entry-file] {
+  --overview-border: var(--folder-stripe);
+}
+
+.pfig-folder-accent :is(.pfig-overview-summary, .pfig-overview-header),
+.pfig-folder-swatch {
+  background-color: var(--overview-fill);
+  background-image: linear-gradient(var(--folder-stripe), var(--folder-stripe));
+  background-size: 100% 7px;
+  background-repeat: no-repeat;
+}
+
+.pfig-folder-swatch {
+  display: inline-block;
+  flex: 0 0 22px;
+  height: 14px;
+  border: 1px solid var(--overview-border);
+  border-radius: 3px;
+  background-size: 100% 4px;
+}
+
+.pfig-file-legend { margin-top: 8px; }
+
+.pfig-overview-summary,
+.pfig-overview-header {
+  display: grid;
+  gap: 3px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px 12px;
+  color: var(--pfig-fg);
+  background: var(--overview-fill);
+}
+
+.pfig-overview-summary {
+  height: 100%;
+  align-content: center;
+  border: 1px solid var(--overview-border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pfig-overview-summary:hover { border-color: var(--folder-stripe, var(--pfig-kw-link)); }
+
+.pfig-overview-card--expanded {
+  border: 1px solid var(--overview-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--overview-fill) 30%, transparent);
+}
+
+.pfig-background-edge { opacity: 0.25; }
+
+.pfig-active-file .pfig-overview-card--expanded {
+  border-color: var(--folder-stripe, var(--pfig-kw-link));
+  box-shadow: 0 0 0 1px var(--overview-border);
+  background: color-mix(in srgb, var(--overview-fill) 45%, transparent);
+}
+
+.pfig-overview-header {
+  border-radius: 7px 7px 0 0;
+  border-bottom: 1px solid var(--overview-border);
+}
+
+.pfig-node-toolbar {
+  display: flex;
+  flex: none;
+  gap: 4px;
+}
+
+.pfig-node-menu {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  min-width: 148px;
+  max-width: calc(100vw - 12px);
+  padding: 4px;
+  border: 1px solid var(--pfig-border);
+  border-radius: 6px;
+  background: var(--pfig-bar);
+  color: var(--pfig-fg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  font-size: 12px;
+  pointer-events: auto;
+  cursor: default;
+}
+
+.pfig-node-menu button {
+  display: grid;
+  grid-template-columns: 14px auto;
+  gap: 4px;
+  width: 100%;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pfig-node-menu button:is(:hover, :focus-visible) {
+  background: var(--pfig-entry-file-bg);
+}
+
+.pfig-overview-icon {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 20px;
+  padding: 0;
+  color: var(--pfig-fg);
+  border: 1px solid var(--overview-border);
+  border-radius: 4px;
+  background: var(--pfig-body-bg);
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.pfig-overview-icon:hover,
+.pfig-overview-icon[data-solo-active],
+.pfig-overview-icon[aria-expanded="true"] { border-color: var(--pfig-kw-link); }
+
+.pfig-overview-icon[data-solo-active] {
+  background: var(--pfig-entry-file-bg);
+}
+
+.pfig-overview-directory,
+.pfig-overview-name,
+.pfig-overview-count {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pfig-overview-directory,
+.pfig-overview-name { font-size: 14px; }
+
+.pfig-overview-expand {
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pfig-overview-count,
+.pfig-overview-key {
+  color: var(--pfig-faint);
+  font-size: 11px;
+}
+
+.pfig-overview-key {
+  margin-top: 8px;
+}
+
+.pfig-node-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 20px;
+}
+
+.pfig-binding-title > :first-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.binding-node .pfig-overview-icon {
+  border-color: var(--pfig-border);
+}
+
+.binding-node .pfig-overview-icon:hover,
+.binding-node .pfig-overview-icon[data-solo-active],
+.binding-node .pfig-overview-icon[aria-expanded="true"] {
+  border-color: var(--pfig-kw-link);
+}
+
+.pfig-kwargs-toggle {
+  width: 22px;
+  padding: 0;
+  height: 20px;
+  border: 1px solid var(--pfig-border);
+  border-radius: 4px;
+  color: var(--pfig-fg);
+  background: var(--pfig-body-bg);
+  cursor: pointer;
+}
+
+.pfig-kwargs-toggle:hover { border-color: var(--pfig-kw-link); }
+
+.pfig-provider-collapsed {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 16px 14px;
+  align-content: center;
+  cursor: pointer;
+}
+
+.pfig-provider-collapsed:hover {
+  outline: 1px solid var(--pfig-kw-link);
+  outline-offset: -1px;
+}
+
+.pfig-provider-collapsed.binding-node--fresh_instance:hover { outline-style: dashed; }
+
+.pfig-provider-collapsed[data-diff-status="modified"] { grid-template-rows: auto; }
+.pfig-provider-collapsed[data-diff-status="modified"] .pfig-provider-callable { white-space: normal; }
+.pfig-collapsed-changes { margin-top: 4px; }
+.pfig-hidden-kwargs { min-height: 8px; }
+
+.pfig-provider-expand {
+  border: 0;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pfig-provider-callable {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pfig-provider-callable { font-family: monospace; }
+
+.pfig-wrap-preview,
+.pfig-kwarg-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.pfig-kwarg-name {
+  max-width: 62%;
+  font-family: monospace;
+}
+
+.pfig-kwarg-value {
+  flex: 1;
+  min-width: 0;
+  margin-left: 6px;
+}
+
+.pfig-kwarg-preview {
+  display: flex;
+  color: var(--pfig-muted);
+}
+
+.pfig-kwarg-value,
+.pfig-kwarg-expression,
+.pfig-kwarg-result {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pfig-kwarg-result {
+  max-width: 60%;
+  white-space: pre;
+  color: var(--pfig-fg);
+}
+.pfig-collapsed-input-row { position: relative; }
+.pfig-collapsed-input-row .pfig-provider-callable { line-height: 16px; }
+.pfig-hidden-kwargs { color: var(--pfig-faint); font-size: 10px; line-height: 14px; }
+
+.binding-node .pfig-group-link-handle {
+  top: auto;
+  bottom: 6px;
+  transform: translateX(-50%);
+  background: var(--pfig-kw-link);
+}
+
+.pfig-edge-reference-details {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 6;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(460px, calc(100% - 30px));
+  max-height: calc(100% - 30px);
+  overflow: auto;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+  padding: 8px 10px;
+  border: 1px solid var(--pfig-border);
+  border-radius: 4px;
+  background: var(--pfig-bar);
+  color: var(--pfig-fg);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.pfig-edge-reference-details.is-selected { pointer-events: auto; }
+.pfig-edge-reference-summary { color: var(--pfig-muted); }
+
+.pfig-value-preview {
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid var(--pfig-divider);
+  overflow-wrap: anywhere;
+}
+
+.pfig-value-items {
+  margin: 4px 0 0;
+  padding-left: 23px;
+  line-height: 17px;
+}
+
+.pfig-value-items li + li {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid var(--pfig-divider);
+}
+
+.pfig-value-items li::marker,
+.pfig-value-more { color: var(--pfig-muted); }
+.pfig-value-reference { color: var(--pfig-kw-link); cursor: pointer; }
+.pfig-value-call-argument { padding-left: 8px; }
+.pfig-value-call-argument span { color: var(--pfig-kw-label); }
+
+.pfig-override-source {
+  margin: 0 0 5px;
+  font-size: 10px;
+  color: var(--pfig-kw-label);
+}

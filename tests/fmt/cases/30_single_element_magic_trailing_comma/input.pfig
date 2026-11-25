@@ -1,0 +1,5 @@
+list_magic = [1,]
+list_no_magic = [1]
+tuple_one = (1,)
+dict_magic = {1: 2,}
+call_magic = Foo(a=1,)

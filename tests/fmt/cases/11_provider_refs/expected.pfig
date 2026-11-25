@@ -1,0 +1,5 @@
+a = @model
+b = @model()
+c = @trainer.fit
+d = @consts/epochs
+e = @model(lr=0.001)

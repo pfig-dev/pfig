@@ -1,0 +1,34 @@
+name: Bug report
+description: Report incorrect pfig behavior
+title: "fix: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Minimal `.pfig` snippet, command, and any Python it depends on.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: pfig version
+      placeholder: output of `pfig --version`
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: e.g. 3.12.3
+    validations:
+      required: true

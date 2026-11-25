@@ -1,0 +1,6 @@
+model = MLP(
+    input_size=@consts/input_size,
+    hidden_sizes=@consts/hidden_sizes,
+    num_classes=@consts/num_classes,
+    dropout=@consts/dropout,
+)

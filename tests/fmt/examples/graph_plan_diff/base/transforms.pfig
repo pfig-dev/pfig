@@ -1,0 +1,7 @@
+from collections import OrderedDict
+
+input_stats = OrderedDict(mean=0, scale=1)
+normalize = OrderedDict(stats=@input_stats)
+preprocess = OrderedDict(transform=@normalize)
+dataloader = OrderedDict(preprocess=@preprocess, num_workers=2)
+model = OrderedDict(hidden_sizes=[32, 64])

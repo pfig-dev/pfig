@@ -1,0 +1,13 @@
+# Basic pfig fixture for testing
+import os
+from collections import OrderedDict
+
+external db_url
+
+model = torch.nn.Linear(in_features=10, out_features=5)
+optimizer = torch.optim.Adam(lr=0.001)
+
+trainer = MyTrainer(
+    model=@model,
+    optimizer=@optimizer,
+)

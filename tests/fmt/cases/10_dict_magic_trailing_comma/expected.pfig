@@ -1,0 +1,4 @@
+settings = {
+    "app": "hello",
+    "version": "1.0",
+}

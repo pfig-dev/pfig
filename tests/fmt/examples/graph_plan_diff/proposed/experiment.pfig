@@ -1,0 +1,9 @@
+from collections import OrderedDict
+
+include "transforms.pfig" as transforms
+
+trainer = OrderedDict(
+    model=@transforms/model,
+    dataloader=@transforms/dataloader,
+)
+__entrypoint__ = @trainer

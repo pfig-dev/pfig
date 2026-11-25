@@ -1,0 +1,5 @@
+/* Used while capturing PNG: keep pane/renderer transparent for PDF-friendly export */
+.pfig-graph-exporting .react-flow__renderer,
+.pfig-graph-exporting .react-flow__pane {
+  background: transparent !important;
+}

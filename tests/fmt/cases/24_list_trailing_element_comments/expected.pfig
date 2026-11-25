@@ -1,0 +1,5 @@
+stages = [
+    "fetch",  # raw data
+    "transform",  # normalize
+    "load",  # write to db
+]

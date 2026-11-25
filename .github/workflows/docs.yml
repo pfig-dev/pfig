@@ -1,0 +1,36 @@
+name: Deploy docs
+
+# Publishes MkDocs output to Cloudflare Pages (https://pfig.dev/).
+# Required repository secrets:
+#   CLOUDFLARE_API_TOKEN  - API token with Cloudflare Pages edit permission
+#   CLOUDFLARE_ACCOUNT_ID - Cloudflare account ID for the Pages project
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-pages-docs
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[docs]"
+      - run: mkdocs build --strict
+      - uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy site --project-name=pfig
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

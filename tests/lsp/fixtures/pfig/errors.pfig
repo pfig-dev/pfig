@@ -1,0 +1,12 @@
+# Fixture with intentional errors
+import os
+
+# Name collision: import and binding share name
+os = SomeClass()
+
+# Unknown provider ref
+result = @nonexistent
+
+# Shadowing without override
+model = First()
+model = Second()

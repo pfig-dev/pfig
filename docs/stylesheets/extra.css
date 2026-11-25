@@ -1,0 +1,15 @@
+.md-typeset .pfig-logo-light,
+.md-typeset .pfig-logo-dark { height: 100px; width: auto; }
+
+.md-typeset:has(.pfig-logo-light) > h1 { display: none; }
+.pfig-logo-dark { display: none; }
+[data-md-color-scheme="slate"] .pfig-logo-light { display: none; }
+[data-md-color-scheme="slate"] .pfig-logo-dark { display: block; }
+
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #8e47a2;
+  --md-primary-fg-color--light: #a362b8;
+  --md-primary-fg-color--dark: #6d3280;
+  --md-accent-fg-color: #8e47a2;
+}

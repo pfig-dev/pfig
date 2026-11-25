@@ -1,0 +1,8 @@
+stages = [
+    # first stage
+    "fetch",
+    # second stage
+    "transform",
+    # final stage
+    "load",
+]

@@ -1,0 +1,4 @@
+limits = {
+    "max": 100,  # hard ceiling
+    "min": 0,  # negatives prohibited
+}

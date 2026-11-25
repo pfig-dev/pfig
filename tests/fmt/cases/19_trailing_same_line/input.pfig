@@ -1,0 +1,3 @@
+external device  # gpu or cpu
+external data_dir   # location of MNIST
+x = 1  # default

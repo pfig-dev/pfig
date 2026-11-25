@@ -1,0 +1,4 @@
+include "./consts.pfig" as consts
+external device
+external data_dir
+override consts/epochs = 10

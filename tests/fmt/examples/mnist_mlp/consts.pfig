@@ -1,0 +1,26 @@
+# MNIST MLP Training Constants
+# This file contains all configurable parameters for the training process
+# =============================================================================
+# External Parameters (Runtime Environment Configuration)
+# =============================================================================
+# These parameters describe HOW the training runs (device, data location, workers)
+# rather than WHAT is trained (model architecture, hyperparameters)
+
+external device  # Device to use: "cpu", "cuda", etc.
+external data_dir  # Directory to store/load MNIST data
+external num_workers  # Number of data loading workers
+
+# =============================================================================
+# Training Parameters
+# =============================================================================
+epochs = 5
+batch_size = 128
+learning_rate = 0.001
+
+# =============================================================================
+# Model Architecture Parameters
+# =============================================================================
+input_size = 784
+hidden_sizes = [512, 256, 128]
+num_classes = 10
+dropout = 0.2

@@ -1,0 +1,15 @@
+{
+  "typeCheckingMode": "basic",
+  "reportMissingImports": "warning",
+  "include": ["pfig"],
+  "exclude": [
+    "**/__pycache__",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+    "notebooks",
+    "experiments",
+    "scratch"
+  ]
+}

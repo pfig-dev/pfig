@@ -1,0 +1,1 @@
+model = MLP(input_size=784, hidden=128, num_classes=10)

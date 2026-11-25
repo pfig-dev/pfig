@@ -1,0 +1,3 @@
+override device = "cuda"
+override data_dir = "./data"
+override num_workers = 8

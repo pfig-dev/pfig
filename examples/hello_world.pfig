@@ -1,0 +1,68 @@
+# Hello World - Simple pfig Example
+#
+# This demonstrates the basic pfig v0.1.0 features:
+#   • Imports from standard library
+#   • Configuration with literals and containers
+#   • Provider definitions (lazy recipes)
+#   • Provider references with @ syntax
+#   • Shared vs fresh instance semantics
+
+import json
+from decimal import Decimal
+from pfig.utils import Printer
+
+# Configuration values
+app_name = "Hello pfig"
+version = "1.0.0"
+debug_mode = True
+
+# Nested configuration
+settings = {
+    "app": app_name,
+    "version": version,
+    "debug": debug_mode,
+    "features": ["providers", "lazy_evaluation", "shared_instances"],
+}
+
+# === Provider Definitions ===
+# Create a decimal value provider
+precision_value = Decimal(value="3.14159")
+
+# Create a JSON serializer provider
+config_json = json.dumps(obj=settings, indent=2)
+
+# === Using Providers ===
+# Application configuration using providers
+app_config = {
+    # Shared instance - same Decimal object every time
+    "pi": @precision_value,
+    "pi_copy": @precision_value,
+    # Fresh instances - new Decimal objects each time
+    "pi_fresh1": @precision_value(),
+    "pi_fresh2": @precision_value(),
+    # Shared JSON config
+    "serialized_config": @config_json,
+    # Application metadata
+    "name": app_name,
+    "debug": debug_mode,
+}
+
+printer = Printer(object=app_config)
+__entrypoint__ = @printer
+# Usage:
+#
+# from pfig.parser import parse_pfig_source
+# from pfig.execution import get_materialized_bindings
+#
+# ast = parse_pfig_source(open('hello_world.pfig').read(), filename='hello_world.pfig')
+# result = get_materialized_bindings(ast, entrypoint='app_config')
+# config = result['app_config']
+#
+# # Shared instances are the same object
+# assert config['pi'] is config['pi_copy']  # True!
+#
+# # Fresh instances are different objects
+# assert config['pi_fresh1'] is not config['pi_fresh2']  # True!
+#
+# # But they have the same value
+# assert config['pi'] == config['pi_fresh1']  # True!

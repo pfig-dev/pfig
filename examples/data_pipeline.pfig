@@ -1,0 +1,120 @@
+# Data Processing Pipeline Configuration Example
+#
+# This example demonstrates the core pfig v0.1.0 capabilities:
+#   • Provider definitions: function calls create lazy recipes
+#   • Shared instances: @provider returns the same object
+#   • Fresh instances: @provider() creates new objects each time
+#   • Complex nested configurations with realistic structure
+#   • Standard library integration (json, collections, re, etc.)
+#
+# The pipeline processes data from multiple API sources with validation,
+# parallel worker queues, and comprehensive error tracking.
+
+import json
+import re
+from collections import OrderedDict, defaultdict
+from pfig.utils import Printer
+
+# === Configuration Constants ===
+batch_size = 1000
+max_workers = 4
+timeout_seconds = 30
+output_format = "jsonl"
+
+# Data source configuration
+data_sources = [
+    {"name": "users", "url": "https://api.example.com/users", "priority": 1},
+    {"name": "orders", "url": "https://api.example.com/orders", "priority": 2},
+    {"name": "products", "url": "https://api.example.com/products", "priority": 3},
+]
+
+# Processing rules
+validation_rules = {
+    "users": {"required_fields": ["id", "email", "created_at"]},
+    "orders": {"required_fields": ["id", "user_id", "amount", "timestamp"]},
+    "products": {"required_fields": ["id", "name", "price"]},
+}
+
+# Output paths
+base_output_dir = "/tmp/pipeline_output"
+paths = {
+    "raw": "raw_data",
+    "processed": "processed_data",
+    "errors": "error_logs",
+    "reports": "reports",
+}
+
+# === Provider Definitions (Lazy Recipes) ===
+# JSON serializer for configuration
+config_serializer = json.dumps(obj={}, indent=2, sort_keys=True)
+
+# Error tracking system
+error_tracker = defaultdict(default_factory=list)
+
+# Regex pattern compiler for validation
+email_pattern = re.compile(pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$")
+
+# Ordered processing queue
+processing_queue = OrderedDict()
+
+# Counter for statistics
+stats_counter = defaultdict(default_factory=int)
+
+# === Pipeline Configuration ===
+# Main pipeline configuration using provider references
+pipeline_config = {
+    "batch_size": batch_size,
+    "max_workers": max_workers,
+    "timeout": timeout_seconds,
+    # Shared instances - same serializer and error tracker for all components
+    "config_backup": @config_serializer,
+    "global_errors": @error_tracker,
+    # Shared validation pattern across all data processing
+    "email_validator": @email_pattern,
+    # Fresh processing queues for parallel workers
+    "worker_queues": [@processing_queue(), @processing_queue(), @processing_queue()],
+    # Fresh stats counters for different processing stages
+    "input_stats": @stats_counter(),
+    "processing_stats": @stats_counter(),
+    "output_stats": @stats_counter(),
+    "data_sources": data_sources,
+    "validation_rules": validation_rules,
+    "output_format": output_format,
+    "paths": paths,
+}
+
+# Final pipeline definition
+pipeline = {
+    "config": pipeline_config,
+    "runtime_stats": @stats_counter,
+    "metadata": {
+        "version": "1.0.0",
+        "created_by": "pfig DSL",
+        "features_used": ["providers", "shared_instances", "fresh_instances"],
+        "base_output_dir": base_output_dir,
+    },
+}
+
+# Create a meaningful entrypoint that uses the pipeline configuration
+# This implements the partial(pprint, pipeline) concept within pfig syntax
+pipeline_printer = Printer(object=pipeline)
+__entrypoint__ = @pipeline_printer
+# Usage example:
+#
+# from pfig.parser import parse_pfig_source
+# from pfig.execution import get_materialized_bindings
+#
+# ast = parse_pfig_source(open('data_pipeline.pfig').read(), filename='data_pipeline.pfig')
+# result = get_materialized_bindings(ast, entrypoint='pipeline')
+# pipeline = result['pipeline']
+#
+# # Access configuration
+# config = pipeline['config']
+# batch_size = config['batch_size']  # 1000
+#
+# # Get fresh worker queues (each is a different object)
+# queues = config['worker_queues']  # 3 unique OrderedDict instances
+#
+# # Access shared instances (same object every time)
+# error_tracker = config['global_errors']  # Shared defaultdict
+# validator = config['email_validator']    # Shared regex pattern

@@ -1,0 +1,3 @@
+override device = "cpu"
+override data_dir = "./data"
+override num_workers = 4

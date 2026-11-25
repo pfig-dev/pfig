@@ -1,0 +1,1 @@
+config = {"servers": ["alpha", "beta", "gamma"], "limits": {"max": 10, "min": 0}}

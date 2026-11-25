@@ -1,0 +1,9 @@
+# Include fixture
+include "basic.pfig" as base
+
+override base/model = torch.nn.Conv2d(in_channels=3, out_channels=16, kernel_size=3)
+
+pipeline = MyPipeline(
+    model=@base/model,
+    optimizer=@base/optimizer,
+)

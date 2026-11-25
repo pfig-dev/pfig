@@ -1,0 +1,105 @@
+site_name: pfig Documentation
+site_description: A tiny, strict DSL for declarative Python object wiring
+site_url: https://pfig.dev/
+repo_url: https://github.com/pfig-dev/pfig
+repo_name: pfig-dev/pfig
+
+hooks:
+  - docs/hooks.py
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            heading_level: 2
+            show_source: false
+            show_root_heading: true
+            show_root_full_path: false
+            show_signature_annotations: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            separate_signature: true
+            signature_crossrefs: true
+            docstring_style: google
+            docstring_section_style: spacy
+            merge_init_into_class: true
+            show_if_no_docstring: false
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+  logo: assets/pfig-white-50.png
+  favicon: assets/pfig-avatar-50.png
+
+nav:
+  - Home: index.md
+  - Guides:
+    - Getting Started: guides/getting-started.md
+    - Patterns & Best Practices: guides/patterns.md
+    - Snapshots: guides/snapshots.md
+    - Troubleshooting: guides/troubleshooting.md
+  - Reference:
+    - Overview: reference/index.md
+    - Syntax Reference: reference/syntax_reference.md
+    - CLI Reference: reference/cli.md
+    - API Reference: reference/api_reference.md
+    - LSP API: reference/lsp_api.md
+    - Snapshot Format: reference/snapshot_format.md
+  - Developer Guide:
+    - Overview: developer/developer_guide.md
+    - Development Setup: developer/developer_setup.md
+    - Architecture: developer/architecture.md
+    - Development Workflow: developer/development_workflow.md
+    - Contributing: developer/contributing.md
+    - Developer Debugging: developer/developer_debugging.md
+    - Specification: developer/spec.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+      pygments_style: material
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path: ['.', 'docs']
+  - pymdownx.superfences:
+      preserve_tabs: false
+      disable_indented_code_blocks: true
+  - toc:
+      permalink: true
+  - pymdownx.tabbed:
+      alternate_style: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pfig-dev/pfig
+

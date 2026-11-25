@@ -1,0 +1,15 @@
+[run]
+branch = True
+source =
+    pfig
+omit =
+    tests/*
+    setup.py
+    **/__main__.py
+    **/*.egg-info/*
+
+[report]
+show_missing = True
+skip_covered = True
+precision = 1
+sort = Cover

@@ -1,0 +1,58 @@
+# pfig Configuration for MNIST MLP Training
+# This demonstrates real-world ML configuration using pfig's include system
+
+# Include training constants from separate file
+include "./consts.pfig" as consts
+
+override consts/epochs = 10
+import torch
+import torch.optim as optim
+from torchvision import datasets, transforms
+# Import the training modules and PyTorch
+from train import MLP, Trainer, create_optimizer
+
+# =============================================================================
+# Component Definitions (Providers)
+# =============================================================================
+# Model provider - creates the neural network
+model = MLP(
+    input_size=@consts/input_size,
+    hidden_sizes=@consts/hidden_sizes,
+    num_classes=@consts/num_classes,
+    dropout=@consts/dropout,
+)
+
+preprocess = transforms.Compose(
+    transforms=[
+        transforms.ToTensor(),
+        transforms.Normalize(mean=(0.1307,), std=(0.3081,)),
+    ],
+)
+dataset = datasets.MNIST(root=@consts/data_dir, download=True, transform=@preprocess)
+dataloader = torch.utils.data.DataLoader(
+    batch_size=@consts/batch_size,
+    num_workers=@consts/num_workers,
+    pin_memory=True,
+)
+train_loader = @dataloader(dataset=@dataset(train=True))
+val_loader = @dataloader(dataset=@dataset(train=False), shuffle=False)
+
+# Optimizer provider - use helper function to handle model.parameters()
+optimizer = create_optimizer(
+    optimizer_class=optim.Adam,
+    model=@model,
+    lr=@consts/learning_rate,
+)
+
+# Trainer provider - wires everything together
+trainer = Trainer(
+    model=@model,
+    optimizer=@optimizer,
+    train_loader=@train_loader,
+    val_loader=@val_loader,
+    device=@consts/device,
+    epochs=@consts/epochs,
+)
+
+# Use trainer.fit as entrypoint - perfect for pfig!
+__entrypoint__ = @trainer.fit
