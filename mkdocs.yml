@@ -4,6 +4,11 @@ site_url: https://pfig.dev/
 repo_url: https://github.com/pfig-dev/pfig
 repo_name: pfig-dev/pfig
 
+exclude_docs: |
+  /__init__.py
+  /hooks.py
+  /pygments_lexer.py
+
 hooks:
   - docs/hooks.py
 
