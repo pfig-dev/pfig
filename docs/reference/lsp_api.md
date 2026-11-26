@@ -1,6 +1,6 @@
 # LSP API Reference
 
-**Audience:** Developers integrating pfig with LSP-based editors (e.g. pfig-vscode-syntax)
+**Audience:** Developers integrating pfig with LSP-capable editors
 
 **Purpose:** Use pfig as the single source of truth for parsing, indexing, include resolution, and validation. Replace custom regex indexers, resolvers, and validators with pfig's APIs.
 
@@ -39,9 +39,9 @@ python -m pip install "pfig[lsp]"
 python -m pfig.lsp
 ```
 
-The server publishes diagnostics with `LanguageServer.publish_diagnostics(uri, diagnostics)`,
-which is the supported `pygls>=1.3,<2` API. Initialization metadata is returned using
-`lsprotocol.types.InitializeResultServerInfoType`.
+Configure your editor's LSP client to launch this command over stdio for `.pfig`
+files, using the Python environment where `pfig[lsp]` and your project's config
+imports are installed. The `pfig-lsp` console command is equivalent.
 
 Advertised capabilities:
 
@@ -238,14 +238,16 @@ for issue in issues:
     # severity: "error" | "warning" (optional)
 ```
 
-`compile_pfig` now produces issues for:
+`compile_pfig` returns issues for:
 
 - Unresolvable include path, include cycle, self-include
 - Import errors (module not found, cannot import name)
 - Unknown binding, missing external, override target not found
 - Name collision (import vs binding), shadowing, duplicate include alias
 
-Import and include errors raise `ValidationError` (with `ValidationIssue` list) instead of `ExecutionError`, and positions point to the relevant span (module path, include path, etc.).
+Import and include failures are returned as `ValidationIssue` entries, not raised
+by `compile_pfig`. A failed compilation may return an empty compiled result.
+Parse errors occur before compilation and should be handled separately.
 
 ---
 
@@ -257,18 +259,6 @@ The compile result includes an include graph:
 compiled, issues = compile_pfig(...)
 include_graph = compiled.get("include_graph", {})  # filename -> set of included filenames
 ```
-
----
-
-## Migration Checklist (for pfig-vscode-syntax)
-
-1. Replace regex indexer with `parse_pfig_source(..., with_index=True)` and `index_from_ast`
-2. Replace custom resolver with `resolve_include_path`
-3. Replace `_find_binding` / `_find_overridden_definition` with `resolve_provider_ref`
-4. Remove `_fix_pfig_import_positions`; use `ValidationIssue.position` directly (convert 1-based → 0-based)
-5. Remove duplicate validation in `validator.py`; rely on `compile_pfig` issues
-6. Use `include_graph` from compile result for cycle detection and dependent revalidation
-7. Prefer LSP semantic tokens for provider/value highlighting instead of regex syntax rules
 
 ---
 

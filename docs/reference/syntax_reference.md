@@ -123,7 +123,8 @@ Providers are recipes for creating objects, defined by constructor or function c
 ```pfig
 # Provider definition (recipe)
 model = nn.Linear(in_features=784, out_features=10)
-optimizer = optim.Adam(params=utils.get_params(@model), lr=0.001)
+params = utils.get_params(model=@model)
+optimizer = optim.Adam(params=@params, lr=0.001)
 
 # Provider references
 shared_model = @model              # Shared instance (memoized)
@@ -298,7 +299,17 @@ Important parsing details:
 
 ## Putting It All Together
 
-Here's a complete example showing all syntax elements working together:
+This example assumes PyTorch and Torchvision are installed, `train.py` defines
+`Trainer`, and `base.pfig` defines `input_size`, `n_classes`, `learning_rate`, and
+`batch_size`. Add this helper alongside them:
+
+```python
+# utils.py
+def get_params(*, model):
+    return model.parameters()
+```
+
+Then wire them together in your config:
 
 ```pfig
 # Imports
@@ -326,9 +337,10 @@ model = nn.Linear(
 )
 # Note: Method calls on providers are not allowed (providers are recipes,
 # not instantiated objects). Use a helper function to extract
-# parameters: utils.get_params(@model)
+# parameters from the materialized model.
+params = utils.get_params(model=@model)
 optimizer = optim.Adam(
-    params=utils.get_params(@model),
+    params=@params,
     lr=@base/learning_rate,
 )
 # Partial providers - define base recipe missing required args,

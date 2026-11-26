@@ -273,7 +273,7 @@ that returns a callable, for example `functools.partial(train, model=model)`.
 
 ## 9) CLI
 
-Commands: `view`, `validate`, `run`, `bundle`, `diff`, `fmt`, `replay`, `install-rules`.
+Commands: `view`, `diff-view`, `validate`, `run`, `bundle`, `diff`, `fmt`, `replay`, `install-rules`.
 See the [CLI Reference](../reference/cli.md) for flags and per-command exit codes.
 
 Global verbosity precedes the command: `pfig -v run config.pfig`.

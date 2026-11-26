@@ -9,16 +9,12 @@
 
 pfig separates *what* you build (algorithm) from *how* you run it (environment). Built for ML workflows.
 
+Our paper, [ML Configuration Artifacts Should Be Closed Under Review](https://openreview.net/forum?id=1l0lbV2pC2), was accepted to the **NeurIPS 2026 Position Paper Track**. See [Citation](#citation) for BibTeX.
+
 ## Install
 
 ```bash
 pip install pfig
-```
-
-Until the first PyPI release is published, install from the repository:
-
-```bash
-pip install git+https://github.com/pfig-dev/pfig.git
 ```
 
 For a complete walkthrough, see **[Getting Started](guides/getting-started.md)**.
@@ -53,7 +49,7 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 - **Externals**: Runtime environment separation
 - **Overrides**: Config layering with `override base/param = value`
 - **Snapshots**: Automatic reproducibility tracking with Git state and environment capture
-- **CLI**: Validate, run, diff, fmt, bundle, and replay commands
+- **Graph viewer**: Inspect dependencies with [`pfig view`](reference/cli.md#view) or compare two plans with [`pfig diff-view`](reference/cli.md#diff-view)
 
 ## Formatting
 
@@ -63,7 +59,7 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 
 - **`pfig install-rules`**: Install agent rules for Cursor, Claude Code, or Codex — see [CLI reference](reference/cli.md#install-rules)
 - **LSP server**: Diagnostics, go-to-definition, hover, completion, signature help, and semantic tokens — see [LSP API](reference/lsp_api.md)
-- **VS Code**: Syntax highlighting via the [vscode-pfig](https://github.com/pfig-dev/vscode-pfig) extension
+- **VS Code extension**: Coming soon.
 
 ## Get Started
 
@@ -73,6 +69,20 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 - 🔧 **[CLI Reference](reference/cli.md)** - Commands for validate, run, diff, fmt, and more
 - 📸 **[Snapshots Guide](guides/snapshots.md)** - Reproducibility and experiment tracking
 - 📋 **[Specification](developer/spec.md)** - Complete language specification
+
+## Citation
+
+If you use pfig in your research, please cite our paper:
+
+```bibtex
+@inproceedings{rudy2026ml,
+  title     = {{ML} Configuration Artifacts Should Be Closed Under Review},
+  author    = {Jan Rudy and Mohamad Khalil},
+  booktitle = {The Fortieth Annual Conference on Neural Information Processing Systems Position Paper Track},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=1l0lbV2pC2}
+}
+```
 
 ## Resources
 

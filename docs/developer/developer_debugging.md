@@ -27,12 +27,6 @@ from pfig import get_materialized_bindings
 result = get_materialized_bindings(ast, entrypoint="my_binding")
 ```
 
-## VS Code Extension
-
-A VS Code syntax highlighting extension for `.pfig` files is available. The extension repository is located at:
-
-**Repository**: [vscode-pfig](https://github.com/pfig-dev/vscode-pfig)
-
 ## Further Reading
 
 - [Development Workflow](development_workflow.md) - How to work on pfig
