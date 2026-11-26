@@ -9,6 +9,8 @@
 
 pfig separates *what* you build (algorithm) from *how* you run it (environment). Built for ML workflows.
 
+Our paper, [ML Configuration Artifacts Should Be Closed Under Review](https://openreview.net/forum?id=1l0lbV2pC2), was accepted to the **NeurIPS 2026 Position Paper Track**. See [Citation](#citation) for BibTeX.
+
 ## Quick Start
 
 Requires Python 3.10 or newer.
@@ -130,6 +132,20 @@ npm run build
 - **VS Code extension:** Coming soon.
 
 *pfig: Explicit wiring, zero magic*
+
+## Citation
+
+If you use pfig in your research, please cite our paper:
+
+```bibtex
+@inproceedings{rudy2026ml,
+  title     = {{ML} Configuration Artifacts Should Be Closed Under Review},
+  author    = {Jan Rudy and Mohamad Khalil},
+  booktitle = {The Fortieth Annual Conference on Neural Information Processing Systems Position Paper Track},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=1l0lbV2pC2}
+}
+```
 
 ## Community
 
