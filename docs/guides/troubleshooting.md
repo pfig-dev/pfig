@@ -38,7 +38,7 @@ The "did you mean" suggestions help catch typos in binding names.
 
 ## Common Issues
 
-1. **Parse Errors**: Check syntax against examples, ensure proper indentation
+1. **Parse Errors**: Check the reported location against the [Syntax Reference](../reference/syntax_reference.md), especially `@` references and keyword-only provider calls
 2. **Validation Errors**: Review all reported issues - they include file/line positions and suggestions
 3. **Execution Errors**: Look for runtime issues during object instantiation
 4. **Provider Issues**: Verify shared vs fresh semantics match expectations (`@provider` vs `@provider()`)
@@ -59,15 +59,16 @@ config.pfig:15:8: Cannot resolve provider reference '@missing_provider'
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Inspect AST
+# Inspect AST and compiled form
+from pfig import compile_pfig, parse_pfig_source
+
 ast = parse_pfig_source(config)
 print(ast)
-
-# Inspect compiled form
-from pfig.execution import ASTCompiler
-compiler = ASTCompiler()
-compiled = compiler.compile_file(ast)
-print(compiled["providers"])
-print(compiled["values"])
+compiled, issues = compile_pfig(ast)
+for issue in issues:
+    print(issue.message)
+if compiled:
+    print(compiled["providers"])
+    print(compiled["values"])
 ```
 

@@ -15,12 +15,6 @@ pfig separates *what* you build (algorithm) from *how* you run it (environment).
 pip install pfig
 ```
 
-Until the first PyPI release is published, install from the repository:
-
-```bash
-pip install git+https://github.com/pfig-dev/pfig.git
-```
-
 For a complete walkthrough, see **[Getting Started](guides/getting-started.md)**.
 
 ## Quick Example
@@ -53,7 +47,7 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 - **Externals**: Runtime environment separation
 - **Overrides**: Config layering with `override base/param = value`
 - **Snapshots**: Automatic reproducibility tracking with Git state and environment capture
-- **CLI**: Validate, run, diff, fmt, bundle, and replay commands
+- **Graph viewer**: Inspect dependencies with [`pfig view`](reference/cli.md#view) or compare two plans with [`pfig diff-view`](reference/cli.md#diff-view)
 
 ## Formatting
 
@@ -63,7 +57,7 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 
 - **`pfig install-rules`**: Install agent rules for Cursor, Claude Code, or Codex — see [CLI reference](reference/cli.md#install-rules)
 - **LSP server**: Diagnostics, go-to-definition, hover, completion, signature help, and semantic tokens — see [LSP API](reference/lsp_api.md)
-- **VS Code**: Syntax highlighting via the [vscode-pfig](https://github.com/pfig-dev/vscode-pfig) extension
+- **VS Code extension**: Coming soon.
 
 ## Get Started
 

@@ -28,6 +28,7 @@ Complete reference documentation for pfig syntax, API, and command-line interfac
 
 ### CLI
 - [`pfig view`](cli.md#view) - Open the browser graph viewer
+- [`pfig diff-view`](cli.md#diff-view) - Compare compiled plans in the browser
 - [`pfig validate`](cli.md#validate) - Validate configuration files
 - [`pfig run`](cli.md#run) - Execute configurations
 - [`pfig bundle`](cli.md#bundle) - Create portable config bundles

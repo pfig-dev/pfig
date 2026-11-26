@@ -81,7 +81,9 @@ Breaking changes use `feat!:` or `fix!:` and should include a `BREAKING CHANGE:`
 
 ## Releases
 
-Version numbers follow [Semantic Versioning](https://semver.org/). Maintainers cut releases from tagged commits on `main` and publish release notes in [CHANGELOG.md](https://github.com/pfig-dev/pfig/blob/main/CHANGELOG.md).
+Version numbers follow [Semantic Versioning](https://semver.org/). Maintainers update [CHANGELOG.md](https://github.com/pfig-dev/pfig/blob/main/CHANGELOG.md), then tag the release commit on `main` with a new `v`-prefixed version. Pushing that tag triggers the [Publish workflow](https://github.com/pfig-dev/pfig/actions/workflows/publish.yml), which builds and checks the distributions and uploads them via PyPI Trusted Publishing.
+
+PyPI renders the `README.md` embedded in the release metadata by the build. README changes on `main` do not update the PyPI project description until a new release is published. Use absolute HTTPS URLs for images and links that need to work on both GitHub and PyPI.
 
 ## Pull Request Process
 
@@ -96,7 +98,7 @@ Version numbers follow [Semantic Versioning](https://semver.org/). Maintainers c
 
 - **Performance optimizations** in execution engine
 - **Better error messages** and diagnostics
-- **IDE integrations** - [VS Code extension](https://github.com/pfig-dev/vscode-pfig)
+- **IDE integrations** - see the [LSP reference](../reference/lsp_api.md)
 - **Additional CLI features** per specification
 - **Documentation improvements**
 - **Example configurations** for different ML frameworks

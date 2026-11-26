@@ -18,7 +18,7 @@ use one occurrence of the flag to avoid losing earlier values.
 
 ## view
 
-Open the browser graph viewer for a configuration:
+The browser graph viewer is included in the standard `pfig` install. Open it for a configuration:
 
 ```bash
 pfig view config.pfig
@@ -96,9 +96,9 @@ count and a numbered preview, including arguments for fresh calls.
 
 `pfig view` accepts the same graph-relevant inputs as validation and execution,
 including `--profile`, `--set`, `--strict`, and
-`--allow-missing-externals`. Validation and execution do not share every flag:
-`--strict` and `--allow-missing-externals` are available on `validate` and `view`,
-not `run`.
+`--allow-missing-externals`. `--strict` treats warnings as errors;
+`--allow-missing-externals` allows inspecting incomplete configs. Both flags also
+work with `diff-view` and `validate`, but not `run`.
 
 | Option | Description |
 |--------|-------------|

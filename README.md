@@ -1,9 +1,9 @@
-# ![pfig logo](docs/assets/pfig-text-192.png)
+# ![pfig logo](https://pfig.dev/assets/pfig-text-192.png)
 
 [![CI](https://github.com/pfig-dev/pfig/actions/workflows/ci.yml/badge.svg)](https://github.com/pfig-dev/pfig/actions/workflows/ci.yml)
 [![Coverage](https://codecov.io/gh/pfig-dev/pfig/branch/main/graph/badge.svg)](https://codecov.io/gh/pfig-dev/pfig)
 [![PyPI version](https://img.shields.io/pypi/v/pfig.svg)](https://pypi.org/project/pfig/)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/pfig-dev/pfig/blob/main/LICENSE)
 
 **A tiny, strict DSL for declarative Python object configuration**
 
@@ -11,14 +11,10 @@ pfig separates *what* you build (algorithm) from *how* you run it (environment).
 
 ## Quick Start
 
+Requires Python 3.10 or newer.
+
 ```bash
 pip install pfig
-```
-
-If the package is not yet on PyPI, install from GitHub:
-
-```bash
-pip install git+https://github.com/pfig-dev/pfig.git
 ```
 
 ```pfig
@@ -80,25 +76,21 @@ pfig fmt -                     # read stdin, write stdout
 ## Editor Language Server
 
 The pfig LSP server is included as an optional extra. For VS Code, Neovim, or local
-editor integration, install it from the pfig repo and run it as a module:
+editor integration, install the extra and run the server as a module:
 
 ```bash
-python -m pip install "pfig[lsp] @ git+https://github.com/pfig-dev/pfig.git"
+python -m pip install "pfig[lsp]"
 python -m pfig.lsp
 ```
-
-For private GitHub installs, configure `git` and GitHub authentication for
-`https://github.com/` before the first install.
 
 The server supports diagnostics, go-to-definition, hover, completion, signature
 help, and semantic tokens for provider/value highlighting.
 
 ## Graph Viewer
 
-The graph visualizer is available as the optional `vis` extra and can run in a browser:
+The graph viewer is included with `pfig`. Open it in a browser with:
 
 ```bash
-python -m pip install "pfig[vis]"
 pfig view config.pfig --mode reachable
 pfig diff-view base.pfig proposed.pfig
 ```
@@ -134,22 +126,23 @@ npm run build
   - `cursor` — writes `.cursor/rules/*.mdc` (per-file rules with `globs:` for conditional loading)
   - `claude` — writes `.claude/rules/*.md` (per-file rules with `paths:` for conditional loading)
   - `codex` — writes a single concatenated `AGENTS.md` at the repo root
-- **VS Code syntax highlighting:** See the [vscode-pfig repository](https://github.com/pfig-dev/vscode-pfig) for installation instructions.
+- **Editor integration:** See the [language server reference](https://pfig.dev/reference/lsp_api/#bundled-language-server) for setup and capabilities.
+- **VS Code extension:** Coming soon.
 
 *pfig: Explicit wiring, zero magic*
 
 ## Community
 
-- [Contributing](CONTRIBUTING.md)
-- [Security policy](SECURITY.md)
-- [Code of conduct](CODE_OF_CONDUCT.md)
-- [Changelog](CHANGELOG.md)
+- [Contributing](https://github.com/pfig-dev/pfig/blob/main/CONTRIBUTING.md)
+- [Security policy](https://github.com/pfig-dev/pfig/blob/main/SECURITY.md)
+- [Code of conduct](https://github.com/pfig-dev/pfig/blob/main/CODE_OF_CONDUCT.md)
+- [Changelog](https://github.com/pfig-dev/pfig/blob/main/CHANGELOG.md)
 
 ## License
 
-pfig is licensed under [Apache-2.0](LICENSE). The bundled graph viewer
+pfig is licensed under [Apache-2.0](https://github.com/pfig-dev/pfig/blob/main/LICENSE). The bundled graph viewer
 includes components under other licenses; see the
-[third-party notices](pfig/vis/assets/THIRD_PARTY_NOTICES.txt).
+[third-party notices](https://github.com/pfig-dev/pfig/blob/main/pfig/vis/assets/THIRD_PARTY_NOTICES.txt).
 
 ## Honorable mentions
 

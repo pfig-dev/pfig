@@ -5,14 +5,10 @@ concepts. For larger workflows, continue to [Patterns & Best Practices](patterns
 
 ## Installation
 
+Requires Python 3.10 or newer. Install from [PyPI](https://pypi.org/project/pfig/):
+
 ```bash
 pip install pfig
-```
-
-Until the first PyPI release is published, install from the repository:
-
-```bash
-pip install git+https://github.com/pfig-dev/pfig.git
 ```
 
 If you are contributing to pfig, see the [Developer Setup](../developer/developer_setup.md)
@@ -41,7 +37,7 @@ Run it:
 pfig run hello.pfig
 ```
 
-This prints `3.14159`. pfig builds the objects needed by `__entrypoint__`, then
+This prints `Decimal('3.14159')`. pfig builds the objects needed by `__entrypoint__`, then
 calls it with no arguments. CLI runs also create a reproducibility snapshot by
 default; see the [Snapshots Guide](snapshots.md).
 
@@ -139,5 +135,5 @@ example, see [Layer experiments](patterns.md#layer-experiments-with-includes-and
   [formatting](../reference/cli.md#fmt) and [AI agent rules](../reference/cli.md#install-rules)
 - [Snapshots Guide](snapshots.md) — reproducibility, warnings, and replay
 - [Examples](https://github.com/pfig-dev/pfig/tree/main/examples) — complete workflows
-- [Editor support](../reference/lsp_api.md#bundled-language-server) — optional language server;
-  syntax highlighting is available via the [VS Code extension](https://github.com/pfig-dev/vscode-pfig)
+- [Editor support](../reference/lsp_api.md#bundled-language-server) — optional language server
+  for diagnostics, navigation, completion, and semantic highlighting

@@ -1,12 +1,12 @@
 # Snapshots
 
-Snapshots provide **best-effort reproducibility** for pfig runs by capturing everything needed to recreate an experiment: configuration, resolved parameters, source code state, and environment.
+Snapshots provide **best-effort reproducibility** for runs by recording the configuration, resolved parameters, and available source and environment state.
 
 ## Overview
 
 When you run `pfig run`, pfig automatically creates a snapshot containing:
 
-1. **Payload** - Source files needed to reproduce the run
+1. **Payload** - Bundled configs and, when available, a dependency lock file and Git patches
 2. **Log** - The resolved configuration as a flattened IR graph
 
 This dual-artifact strategy enables both reproduction (via payload) and analysis (via log).
@@ -51,18 +51,19 @@ Set a default snapshot location in your config:
 
 ```pfig
 # config.pfig
-__snapshot__ = "./experiments/snapshots"
+from pfig.utils import Printer
 
-model = MLP(input_dim=784, output_dim=10)
-__entrypoint__ = @model.forward
+__snapshot__ = "./experiments/snapshots"
+printer = Printer(object="hello")
+__entrypoint__ = @printer
 ```
 
 Remote URIs work too:
 
 ```pfig
-# config.pfig
+# Choose one destination in config.pfig:
 __snapshot__ = "gs://my-bucket/experiments/snapshots"  # GCS
-__snapshot__ = "s3://my-bucket/experiments/snapshots"  # S3
+# __snapshot__ = "s3://my-bucket/experiments/snapshots"  # S3
 ```
 
 ### CLI Examples
@@ -89,31 +90,24 @@ By default, snapshots are saved with auto-generated names (`20260114_123456_abc1
 
 ```pfig
 # config.pfig
+from pfig.utils import Printer
+
 external experiment
+__snapshot__ = "./snapshots/" + @experiment
 
-# Snapshot paths may be literals, references, or computed expressions
-external snapshot_root
-__snapshot__ = @snapshot_root
-
-# Reuse the same value for experiment tracking
-clearml_task = ClearMLTask(
-    project="my_project",
-    task_name=@experiment,
-)
-
-trainer = Trainer(task=@clearml_task, ...)
-__entrypoint__ = @trainer.fit
+printer = Printer(object=@experiment)
+__entrypoint__ = @printer
 ```
 
 ```bash
-# Run with experiment name
-pfig run config.pfig --set experiment=lr_ablation snapshot_root=./snapshots/lr_ablation
+# Runs with the same experiment name share a parent directory
+pfig run config.pfig --set experiment=lr_ablation
 # → ./snapshots/lr_ablation/20260114_123456_abc1234/
 
-pfig run config.pfig --set experiment=lr_ablation snapshot_root=./snapshots/lr_ablation
+pfig run config.pfig --set experiment=lr_ablation
 # → ./snapshots/lr_ablation/20260114_123500_def5678/
 
-pfig run config.pfig --set experiment=batch_size_study snapshot_root=./snapshots/batch_size_study
+pfig run config.pfig --set experiment=batch_size_study
 # → ./snapshots/batch_size_study/20260114_140000_ghi9012/
 ```
 

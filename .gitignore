@@ -122,6 +122,9 @@ venv.bak/
 /public
 /tmp
 
+# Cloudflare Wrangler local state
+.wrangler/
+
 # mypy
 .mypy_cache/
 .dmypy.json

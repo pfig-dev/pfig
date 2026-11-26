@@ -124,6 +124,7 @@ Materializer      # Converts specs to live Python objects
 **Commands**:
 
 - `pfig view config.pfig` - Open the browser graph viewer
+- `pfig diff-view base.pfig proposed.pfig` - Compare compiled plans in the browser
 - `pfig validate config.pfig` - Validate without provider materialization (imports still execute)
 - `pfig run config.pfig` - Snapshot and execute a configuration
 - `pfig bundle config.pfig` - Package portable config files
