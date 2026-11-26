@@ -9,6 +9,8 @@
 
 pfig separates *what* you build (algorithm) from *how* you run it (environment). Built for ML workflows.
 
+Our paper, [ML Configuration Artifacts Should Be Closed Under Review](https://openreview.net/forum?id=1l0lbV2pC2), was accepted to the **NeurIPS 2026 Position Paper Track**. See [Citation](#citation) for BibTeX.
+
 ## Install
 
 ```bash
@@ -67,6 +69,20 @@ pfig configs are **trusted inputs**. Running `pfig validate`, `pfig run`, or loa
 - 🔧 **[CLI Reference](reference/cli.md)** - Commands for validate, run, diff, fmt, and more
 - 📸 **[Snapshots Guide](guides/snapshots.md)** - Reproducibility and experiment tracking
 - 📋 **[Specification](developer/spec.md)** - Complete language specification
+
+## Citation
+
+If you use pfig in your research, please cite our paper:
+
+```bibtex
+@inproceedings{rudy2026ml,
+  title     = {{ML} Configuration Artifacts Should Be Closed Under Review},
+  author    = {Jan Rudy and Mohamad Khalil},
+  booktitle = {The Fortieth Annual Conference on Neural Information Processing Systems Position Paper Track},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=1l0lbV2pC2}
+}
+```
 
 ## Resources
 
